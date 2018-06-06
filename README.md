@@ -14,22 +14,22 @@ Configure `conf.json` and hit `npm start`.
 
 ## Options
 
-### `php`
+#### `php`
 * Type: `String`
 * Default: `C:/php`
 * Description: Absolute path to PHP service.
 
-### `command`
+#### `command`
 * Type: `String`
 * Default: `deploy.php`
 * Description: Command to execute on watch callback.
 
-### `watchDir`
+#### `watchDir`
 * Type: `String`
 * Default: `php-files`
 * Description: Relative path to watched files.
 
-### `watchOptions`
+#### `watchOptions`
 * Type: `Object`
 * Default: 
 ```
