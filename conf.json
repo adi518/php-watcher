@@ -1,5 +1,5 @@
 {
-  "php": "c:/php",
+  "php": "C:/php",
   "command": "deploy.php",
   "watchDir": "php-files",
   "watchOptions": {
