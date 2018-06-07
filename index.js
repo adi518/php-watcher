@@ -46,9 +46,15 @@ var getOwnConf = () => {
 
 var hasOwnConf = () => !!getOwnConf()
 
-var log = (message, options = { color: 'bgGreen' }) => {
+var log = (message, options = { color: 'bgGreen', bgColor: '' }) => {
   message.match(/[^\r\n]+/g).forEach(line => {
-    console.log(chalk[options.color](`${namespace}: ${line}`))
+    var color
+    if (options.bgColor) {
+      color = chalk[options.bgColor][options.color]
+    } else {
+      color = chalk[options.color]
+    }
+    console.log(color(`${namespace}: ${line}`))
   })
 }
 
@@ -67,8 +73,8 @@ var watchPath = resolve(conf.watchDir)
 var child
 
 // Where the magic happens.
-// We watch the path and respawn
-// a php handler on every event.
+// We watch the path and restart
+// the php handler on every event.
 /* eslint-disable-next-line */
 fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
 
@@ -78,6 +84,7 @@ fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
   // Kill php handler
   if (child) {
     child.kill()
+    log('Restarting handler...', { color: 'black', bgColor: 'bgYellow' })
   }
 
   // Respawn php handler
@@ -100,11 +107,15 @@ fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
         title: namespace.toUpperCase(),
         message: 'SUCCESS ✔'
       })
+      log('Handler: SUCCESS ✔')
+    } else if (code === null) {
+      // Handler was killed
     } else {
       notifier.notify({
         title: namespace.toUpperCase(),
         message: 'ERROR ✘'
       })
+      log('Handler: FAILED ✘', { color: 'bgRed' })
     }
   })
 })
