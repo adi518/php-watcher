@@ -11,6 +11,7 @@
 // https://nodejs.org/api/child_process.html#child_process_spawning_bat_and_cmd_files_on_windows
 // https://stackoverflow.com/questions/4482686/check-synchronously-if-file-directory-exists-in-node-js
 // https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color/41407246#41407246
+// https://stackoverflow.com/questions/12238477/determine-command-line-working-directory-when-running-node-bin-script
 // https://hackernoon.com/https-medium-com-amanhimself-converting-a-buffer-to-json-and-utf8-strings-in-nodejs-2150b1e3de57
 
 var fs = require('fs')
