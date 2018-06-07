@@ -9,8 +9,13 @@ Node.js Version >= 8 (might work with older versions, but untested).
 npm install
 ```
 
+## Configuration
+Create a `conf.json` (use `conf.default.json` as boilerplate). If `conf.json` is absent `conf.default.json` will be used instead.
+
 ## Usage
-Configure `conf.json` and hit `npm start`.
+```
+npm start
+```
 
 ## Options
 
