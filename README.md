@@ -58,7 +58,7 @@ npm run watch
 
 #### `watchDir`
 * Type: `String`
-* Default: `php-files`
+* Default: `php`
 * Description: Relative path to watched files.
 
 #### `watchOptions`
