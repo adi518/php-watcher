@@ -1,5 +1,6 @@
 // https://coolsymbol.com/
 // https://windows.php.net/download/
+// https://github.com/paulmillr/chokidar
 // https://github.com/mikaelbr/node-notifier
 // https://www.npmjs.com/package/configuration-by-argument
 // https://stackoverflow.com/questions/5034781/js-regex-to-split-by-line
@@ -14,9 +15,9 @@
 // https://stackoverflow.com/questions/12238477/determine-command-line-working-directory-when-running-node-bin-script
 // https://hackernoon.com/https-medium-com-amanhimself-converting-a-buffer-to-json-and-utf8-strings-in-nodejs-2150b1e3de57
 
-var fs = require('fs')
 var path = require('path')
 var chalk = require('chalk')
+var chokidar = require('chokidar')
 var pkg = require('./package.json')
 var capitalize = require('capitalize')
 var notifier = require('node-notifier')
@@ -70,16 +71,22 @@ var conf = Object.assign({}, defaults, getOwnConf())
 // Determine absolute 'watch' path
 var watchPath = resolve(conf.watchDir)
 
+// Initialize watcher.
+var watcher = chokidar.watch(watchPath, Object.assign({
+  ignored: /(^|[/\\])\../,
+  persistent: true
+}, conf.watchOptions))
+
 var child
 
 // Where the magic happens.
 // We watch the path and restart
 // the php handler on every event.
 /* eslint-disable-next-line */
-fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
+watcher.on('change', filename => {
 
   // Log fs-event
-  log(`${filename} (${eventType.toUpperCase()})`)
+  log(`${filename} (CHANGE)`)
 
   // Kill php handler
   if (child) {

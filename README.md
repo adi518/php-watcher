@@ -9,12 +9,27 @@ Node.js Version >= 8 (might work with older versions, but untested). You can fin
 npm install
 ```
 
-## Configuration
-Create a `conf.json` (use `conf.default.json` as boilerplate). If `conf.json` is absent `conf.default.json` will be used instead.
-
 ## Usage
 ```
 npm start
+```
+
+## Configuration
+Configure a `json` according to API below, and pass it to `php-watcher`, like so:
+```
+node ./node_modules/php-watcher/index.js --conf=watch.json
+```
+Ideally, you can assign this command to `npm` script, like so:
+```json
+{
+  "scripts": {
+    "watch": "node ./node_modules/php-watcher/index.js --conf=watch.json"
+  }
+}
+```
+And then use it, like so:
+```
+npm run watch
 ```
 
 ## Options
@@ -36,13 +51,7 @@ npm start
 
 #### `watchOptions`
 * Type: `Object`
-* Default: 
-```
-{
-    "recursive": true
-}
-```
-* Description: See options [here](https://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener).
+* Description: See options [here](https://github.com/paulmillr/chokidar#api).
 
 ## Preview
 ![Alt](preview.gif)
