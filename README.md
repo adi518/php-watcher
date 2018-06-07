@@ -15,15 +15,27 @@ npm start
 ```
 
 ## Configuration
-Configure a `json` according to API below, and pass it to `php-watcher`, like so:
+Create a `js` module, export a config object according to API below. E.g.:
+```js
+module.exports = {
+  php: 'C:/php',
+  command: 'deploy.php',
+  watchDir: 'php',
+  watchOptions: {
+    ignored: /(^|[/\\])\../,
+    persistent: true
+  }
+}
 ```
-node ./node_modules/php-watcher/index.js --conf=watch.json
+Then, pass it to `php-watcher`, like so:
+```
+node ./node_modules/php-watcher/index.js --conf=watch.conf.js
 ```
 Ideally, you can assign this command to `npm` script, like so:
 ```json
 {
   "scripts": {
-    "watch": "node ./node_modules/php-watcher/index.js --conf=watch.json"
+    "watch": "node ./node_modules/php-watcher/index.js --conf=watch.conf.js"
   }
 }
 ```

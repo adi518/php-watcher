@@ -23,28 +23,21 @@ var pkg = require('./package.json')
 var capitalize = require('capitalize')
 var notifier = require('node-notifier')
 var childProcess = require('child_process')
-var ConfigurationByArgument = require('configuration-by-argument')
 
-var defaults = require('./conf.default.json')
+var argv = require('minimist')(process.argv.slice(2))
+
+var defaults = require('./conf.default')
 
 // Helpers
 var namespace = `${capitalize.words(pkg.name)}`
 
-var getConfArg = (() => {
-  var confArg = new ConfigurationByArgument({ parameterKey: 'conf' })
-  return () => confArg
-})()
-
-var getOwnConf = () => {
-  var confArg = getConfArg()
-  if (confArg) {
-    try {
-      return confArg.get()
-    } catch (error) {
-      return null
-    }
+var getOwnConf = (() => {
+  var conf = null
+  if (argv.conf) {
+    conf = require(path.join(process.cwd(), argv.conf))
   }
-}
+  return () => conf
+})()
 
 var hasOwnConf = () => !!getOwnConf()
 
@@ -73,10 +66,7 @@ var conf = Object.assign({}, defaults, getOwnConf())
 var watchPath = resolve(conf.watchDir)
 
 // Initialize watcher.
-var watcher = chokidar.watch(watchPath, Object.assign({
-  ignored: /(^|[/\\])\../,
-  persistent: true
-}, conf.watchOptions))
+var watcher = chokidar.watch(watchPath, conf.watchOptions)
 
 var child
 
