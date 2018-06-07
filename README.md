@@ -43,3 +43,6 @@ npm start
 }
 ```
 * Description: See options [here](https://nodejs.org/api/fs.html#fs_fs_watch_filename_options_listener).
+
+## Preview
+![Alt](preview.png)
