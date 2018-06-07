@@ -15,7 +15,7 @@ npm start
 ```
 
 ## Configuration
-Create a `js` module, export a config object according to API below. E.g.:
+Create a `js` module and export a config object according to API below. E.g.:
 ```js
 module.exports = {
   php: 'C:/php',
