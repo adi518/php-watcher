@@ -68,7 +68,7 @@ fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
 
   // Print its errors
   child.stderr.on('data', data => {
-    log(data.toString(), { color: 'magenta' })
+    log(data.toString(), { color: 'red' })
   })
 
   child.on('close', code => {
