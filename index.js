@@ -83,10 +83,10 @@ var child
 // Watch the path and restart
 // php handler on `change` event.
 /* eslint-disable-next-line */
-watcher.on('change', filename => {
+watcher.on('change', path => {
 
   // Log fs-event
-  log(`${filename} (CHANGE)`)
+  log(`${path} (CHANGE)`)
 
   // Kill php handler
   if (child) {
