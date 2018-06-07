@@ -23,7 +23,6 @@ var notifier = require('node-notifier')
 var childProcess = require('child_process')
 var ConfigurationByArgument = require('configuration-by-argument')
 
-var conf
 var defaults = require('./conf.default.json')
 
 // Helpers
@@ -60,13 +59,7 @@ var resolve = dir => {
   return path.join(__dirname, dir)
 }
 
-if (hasOwnConf()) {
-  try {
-    conf = Object.assign({}, defaults, getOwnConf())
-  } catch (error) {
-    conf = defaults
-  }
-}
+var conf = Object.assign({}, defaults, getOwnConf())
 
 // Determine absolute 'watch' path
 var watchPath = resolve(conf.watchDir)
