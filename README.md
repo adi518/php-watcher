@@ -2,7 +2,7 @@
 Watch PHP files and execute a corresponding handler.
 
 ## Prerequisites
-Node.js Version >= 8 (might work with older versions, but untested).
+Node.js Version >= 8 (might work with older versions, but untested). You can find latest version 8 [here](https://nodejs.org/download/release/v8.11.2/).
 
 ## Install
 ```
