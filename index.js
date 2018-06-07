@@ -13,11 +13,18 @@
 var fs = require('fs')
 var path = require('path')
 var chalk = require('chalk')
-var conf = require('./conf.json')
 var pkg = require('./package.json')
 var capitalize = require('capitalize')
 var notifier = require('node-notifier')
 var childProcess = require('child_process')
+
+var conf
+
+if (fs.existsSync('./conf.json')) {
+  conf = require('./conf.json')
+} else {
+  conf = require('./conf.default.json')
+}
 
 // Helpers
 var namespace = `${capitalize.words(pkg.name)}`
@@ -48,7 +55,6 @@ fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
   // Kill php handler
   if (child) {
     child.kill()
-    log('Killed Php-handler ', { color: 'red' })
   }
 
   // Respawn php handler
@@ -61,7 +67,7 @@ fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
 
   // Print its errors
   child.stderr.on('data', data => {
-    log(data.toString(), { color: 'red' })
+    log(data.toString(), { color: 'magenta' })
   })
 
   child.on('close', code => {
