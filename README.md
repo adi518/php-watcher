@@ -1,5 +1,5 @@
 # PHP-Watcher
-Watch PHP files and execute command.
+Watch PHP files and execute a corresponding handler.
 
 ## Prerequisites
 Node.js Version >= 8 (might work with older versions, but untested).
