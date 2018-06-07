@@ -1,6 +1,6 @@
 {
   "php": "C:/php",
-  "command": "deploy.php",
+  "command": "C:/projects/php-site/node_modules/php-watcher/deploy.php",
   "watchDir": "php-files",
   "watchOptions": {
     "recursive": true

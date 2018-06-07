@@ -1,5 +1,7 @@
+// https://coolsymbol.com/
 // https://windows.php.net/download/
 // https://github.com/mikaelbr/node-notifier
+// https://www.npmjs.com/package/configuration-by-argument
 // https://stackoverflow.com/questions/5034781/js-regex-to-split-by-line
 // https://stackoverflow.com/questions/48698234/node-js-spawn-vs-execute
 // https://windows.php.net/downloads/releases/php-5.6.36-nts-Win32-VC11-x64.zip
@@ -18,25 +20,33 @@ var pkg = require('./package.json')
 var capitalize = require('capitalize')
 var notifier = require('node-notifier')
 var childProcess = require('child_process')
+var ConfigurationByArgument = require('configuration-by-argument')
 
 var conf
+var defaults = require('./conf.default.json')
+var confArg = new ConfigurationByArgument({ parameterKey: 'conf' })
 
-if (fs.existsSync('./conf.json')) {
-  conf = require('./conf.json')
-} else {
-  conf = require('./conf.default.json')
+if (confArg) {
+  try {
+    conf = Object.assign({}, defaults, confArg.get())
+  } catch (error) {
+    conf = defaults
+  }
 }
 
 // Helpers
 var namespace = `${capitalize.words(pkg.name)}`
 
-var log = function (message, options = { color: 'green' }) {
+var log = function (message, options = { color: 'bgGreen' }) {
   message.match(/[^\r\n]+/g).forEach(line => {
     console.log(chalk[options.color](`${namespace}: ${line}`))
   })
 }
 
 var resolve = dir => {
+  if (confArg && confArg.get().watchDir) {
+    return path.join(process.cwd(), dir)
+  }
   return path.join(__dirname, dir)
 }
 
@@ -48,6 +58,7 @@ var child
 // Where the magic happens.
 // We watch the path and respawn
 // a php handler on every event.
+/* eslint-disable-next-line */
 fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
 
   // Log fs-event
@@ -63,26 +74,28 @@ fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
 
   // Print its output
   child.stdout.on('data', data => {
-    log(data.toString(), { color: 'blue' })
+    log(data.toString(), { color: 'bgMagenta' })
   })
 
   // Print its errors
   child.stderr.on('data', data => {
-    log(data.toString(), { color: 'red' })
+    log(data.toString(), { color: 'bgRed' })
   })
 
   child.on('close', code => {
     if (code === 0) {
       // No errors
       notifier.notify({
-        title: namespace,
-        message: 'Success :)'
+        title: namespace.toUpperCase(),
+        message: 'SUCCESS ✔'
       })
     } else {
       notifier.notify({
-        title: namespace,
-        message: 'Error :('
+        title: namespace.toUpperCase(),
+        message: 'ERROR ✘'
       })
     }
   })
 })
+
+log(`Initialized (Version: ${pkg.version})`, { color: 'bgCyan' })
