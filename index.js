@@ -51,8 +51,8 @@ fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
   process = childProcess.spawn(`${conf.php}/php`, [conf.command])
 
   // Print its output
-  process.stdout.on('data', chunk => {
-    log(chunk.toString('utf8'), { color: 'blue' })
+  process.stdout.on('data', data => {
+    log(data.toString(), { color: 'blue' })
   })
 
   // Print its errors
