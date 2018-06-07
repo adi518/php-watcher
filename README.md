@@ -63,6 +63,13 @@ npm run watch
 
 #### `watchOptions`
 * Type: `Object`
+* Default:
+```
+{
+  ignored: /(^|[/\\])\../,
+  persistent: true
+}
+```
 * Description: See options [here](https://github.com/paulmillr/chokidar#api).
 
 ## Preview
