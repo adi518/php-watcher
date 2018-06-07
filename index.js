@@ -27,28 +27,46 @@ var conf
 var defaults = require('./conf.default.json')
 var confArg = new ConfigurationByArgument({ parameterKey: 'conf' })
 
-if (confArg) {
-  try {
-    conf = Object.assign({}, defaults, confArg.get())
-  } catch (error) {
-    conf = defaults
-  }
-}
-
 // Helpers
 var namespace = `${capitalize.words(pkg.name)}`
 
-var log = function (message, options = { color: 'bgGreen' }) {
+var getConfArg = (() => {
+  var confArg = new ConfigurationByArgument({ parameterKey: 'conf' })
+  return () => confArg
+})()
+
+var getOwnConf = () => {
+  var confArg = getConfArg()
+  if (confArg) {
+    try {
+      return confArg.get()
+    } catch (error) {
+      return null
+    }
+  }
+}
+
+var hasOwnConf = () => !!getOwnConf()
+
+var log = (message, options = { color: 'bgGreen' }) => {
   message.match(/[^\r\n]+/g).forEach(line => {
     console.log(chalk[options.color](`${namespace}: ${line}`))
   })
 }
 
 var resolve = dir => {
-  if (confArg && confArg.get().watchDir) {
+  if (hasOwnConf() && getOwnConf().watchDir) {
     return path.join(process.cwd(), dir)
   }
   return path.join(__dirname, dir)
+}
+
+if (hasOwnConf()) {
+  try {
+    conf = Object.assign({}, defaults, confArg.get())
+  } catch (error) {
+    conf = defaults
+  }
 }
 
 // Determine absolute 'watch' path
