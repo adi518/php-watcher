@@ -39,7 +39,7 @@ Ideally, you can assign this command to `npm` script, like so:
   }
 }
 ```
-And then use it, like so:
+Then, use it:
 ```
 npm run watch
 ```
