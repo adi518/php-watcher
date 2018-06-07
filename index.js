@@ -81,7 +81,7 @@ var watcher = chokidar.watch(watchPath, Object.assign({
 var child
 
 // Watch the path and restart
-// php handler on every event.
+// php handler on `change` event.
 /* eslint-disable-next-line */
 watcher.on('change', filename => {
 
