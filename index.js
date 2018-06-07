@@ -1,4 +1,5 @@
 // https://windows.php.net/download/
+// https://github.com/mikaelbr/node-notifier
 // https://stackoverflow.com/questions/5034781/js-regex-to-split-by-line
 // https://stackoverflow.com/questions/48698234/node-js-spawn-vs-execute
 // https://windows.php.net/downloads/releases/php-5.6.36-nts-Win32-VC11-x64.zip
@@ -15,12 +16,15 @@ var chalk = require('chalk')
 var conf = require('./conf.json')
 var pkg = require('./package.json')
 var capitalize = require('capitalize')
+var notifier = require('node-notifier')
 var childProcess = require('child_process')
 
 // Helpers
+var namespace = `${capitalize.words(pkg.name)}`
+
 var log = function (message, options = { color: 'green' }) {
   message.match(/[^\r\n]+/g).forEach(line => {
-    console.log(chalk[options.color](`${capitalize.words(pkg.name)}: ${line}`))
+    console.log(chalk[options.color](`${namespace}: ${line}`))
   })
 }
 
@@ -31,7 +35,7 @@ var resolve = dir => {
 // Determine absolute 'watch' path
 var watchPath = resolve(conf.watchDir)
 
-var process
+var child
 
 // Where the magic happens.
 // We watch the path and respawn
@@ -42,21 +46,36 @@ fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
   log(`${filename} (${eventType.toUpperCase()})`)
 
   // Kill php handler
-  if (process) {
-    process.kill()
+  if (child) {
+    child.kill()
     log('Killed Php-handler ', { color: 'red' })
   }
 
   // Respawn php handler
-  process = childProcess.spawn(`${conf.php}/php`, [conf.command])
+  child = childProcess.spawn(`${conf.php}/php`, [conf.command])
 
   // Print its output
-  process.stdout.on('data', data => {
+  child.stdout.on('data', data => {
     log(data.toString(), { color: 'blue' })
   })
 
   // Print its errors
-  process.stderr.on('data', data => {
+  child.stderr.on('data', data => {
     log(data.toString(), { color: 'red' })
+  })
+
+  child.on('close', code => {
+    if (code === 0) {
+      // No errors
+      notifier.notify({
+        title: namespace,
+        message: 'Success :)'
+      })
+    } else {
+      notifier.notify({
+        title: namespace,
+        message: 'Error :('
+      })
+    }
   })
 })
