@@ -25,7 +25,6 @@ var ConfigurationByArgument = require('configuration-by-argument')
 
 var conf
 var defaults = require('./conf.default.json')
-var confArg = new ConfigurationByArgument({ parameterKey: 'conf' })
 
 // Helpers
 var namespace = `${capitalize.words(pkg.name)}`
@@ -63,7 +62,7 @@ var resolve = dir => {
 
 if (hasOwnConf()) {
   try {
-    conf = Object.assign({}, defaults, confArg.get())
+    conf = Object.assign({}, defaults, getOwnConf())
   } catch (error) {
     conf = defaults
   }
