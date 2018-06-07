@@ -44,7 +44,7 @@ fs.watch(watchPath, conf.watchOptions, (eventType, filename) => {
   // Kill php handler
   if (process) {
     process.kill()
-    log('Php-handler killed', { color: 'yellow' })
+    log('Killed Php-handler ', { color: 'red' })
   }
 
   // Respawn php handler
