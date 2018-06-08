@@ -19,8 +19,8 @@ Create a `js` module and export a config object according to API options below. 
 ```js
 module.exports = {
   php: 'C:/php',
-  command: 'deploy.php',
-  watchDir: 'php',
+  command: 'php/deploy.php',
+  watchDir: 'php/src',
   watchOptions: {
     ignored: /(^|[/\\])\../,
     persistent: true

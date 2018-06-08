@@ -1,7 +1,7 @@
 module.exports = {
   php: 'C:/php',
-  command: 'deploy.php',
-  watchDir: 'php',
+  command: 'php/deploy.php',
+  watchDir: 'php/src',
   watchOptions: {
     ignored: /(^|[/\\])\../,
     persistent: true
