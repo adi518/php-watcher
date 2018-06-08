@@ -73,5 +73,10 @@ npm run watch
 ```
 * Description: See options [here](https://github.com/paulmillr/chokidar#api).
 
+#### `verbose`
+* Type: `Boolean`
+* Default: `true`
+* Description: Whether to display handler output or not.
+
 ## Preview
 ![Alt](preview.gif)
