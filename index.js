@@ -63,6 +63,8 @@ var resolve = dir => {
   return path.join(__dirname, dir)
 }
 
+var isChildAlive = child => !child.killed
+
 var conf = Object.assign({}, defaults, getOwnConf())
 
 // Determine absolute 'watch' path
@@ -92,21 +94,20 @@ watcher.on('change', path => {
 
   // Print its output
   child.stdout.on('data', data => {
-    if (conf.verbose) {
+    if (isChildAlive(child) && conf.verbose) {
       log(data.toString(), { color: 'bgMagenta' })
     }
   })
 
   // Print its errors
   child.stderr.on('data', data => {
-    log(data.toString(), { color: 'bgRed' })
+    if (isChildAlive(child)) {
+      log(data.toString(), { color: 'bgRed' })
+    }
   })
 
   /* eslint-disable-next-line */
-  child.on('close', code => {
-
-    // Reset child
-    child = undefined
+  child.on('exit', code => {
 
     if (code === 0) {
       // No errors
