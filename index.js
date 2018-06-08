@@ -63,7 +63,7 @@ var resolve = dir => {
   return path.join(__dirname, dir)
 }
 
-var isChildAlive = child => !child.killed
+var isChildAlive = (child = {}) => child.killed === false
 
 var conf = Object.assign({}, defaults, getOwnConf())
 
@@ -86,7 +86,6 @@ watcher.on('change', path => {
   // Kill php handler
   if (child) {
     child.kill()
-    log('Restarting handler...', { color: 'black', bgColor: 'bgYellow' })
   }
 
   // Respawn php handler
