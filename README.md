@@ -54,12 +54,12 @@ npm run watch
 
 #### `command`
 * Type: `String`
-* Default: `deploy.php`
+* Default: `php/deploy.php`
 * Description: Command to execute on watch callback.
 
 #### `watchDir`
 * Type: `String`
-* Default: `php`
+* Default: `php/src`
 * Description: Relative path to watched files.
 
 #### `watchOptions`
