@@ -128,3 +128,4 @@ watcher.on('change', path => {
 })
 
 log(`${pkg.version}`, { color: 'yellow' })
+log(`watching: ${conf.watchDir}`, { color: 'yellow' })
