@@ -15,7 +15,7 @@ npm start
 ```
 
 ## Configuration
-Create a `js` module and export a config object according to API below. E.g.:
+Create a `js` module and export a config object according to API options below. All options are merged with their defaults, so you can spare an option if its default is already covering your needs. Defaults:
 ```js
 module.exports = {
   php: 'C:/php',
@@ -24,7 +24,8 @@ module.exports = {
   watchOptions: {
     ignored: /(^|[/\\])\../,
     persistent: true
-  }
+  },
+  verbose: true
 }
 ```
 Then, pass it to `php-watcher`, like so:

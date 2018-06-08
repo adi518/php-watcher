@@ -5,5 +5,6 @@ module.exports = {
   watchOptions: {
     ignored: /(^|[/\\])\../,
     persistent: true
-  }
+  },
+  verbose: true
 }
