@@ -32,7 +32,7 @@ var argv = require('minimist')(process.argv.slice(2))
 var defaults = require('./conf.default')
 
 // Helpers
-var namespace = `${capitalize.words(pkg.name)}`
+var namespace = `${pkg.name}`
 
 var getOwnConf = (() => {
   var conf = null
@@ -44,7 +44,7 @@ var getOwnConf = (() => {
 
 var hasOwnConf = () => !!getOwnConf()
 
-var log = (message, options = { color: 'bgGreen', bgColor: '' }) => {
+var log = (message, options = { color: 'green', bgColor: '' }) => {
   message.match(/[^\r\n]+/g).forEach(line => {
     var color
     if (options.bgColor) {
@@ -52,7 +52,7 @@ var log = (message, options = { color: 'bgGreen', bgColor: '' }) => {
     } else {
       color = chalk[options.color]
     }
-    console.log(color(`${namespace}: ${line}`))
+    console.log(color(`[${namespace}] ${line}`))
   })
 }
 
@@ -81,7 +81,7 @@ var child
 watcher.on('change', path => {
 
   // Log fs-event
-  log(`${path} (CHANGE)`)
+  log(`${path} (CHANGE)`, { color: 'cyan' })
 
   // Kill php handler
   if (child) {
@@ -94,14 +94,14 @@ watcher.on('change', path => {
   // Print its output
   child.stdout.on('data', data => {
     if (isChildAlive(child) && conf.verbose) {
-      log(data.toString(), { color: 'bgMagenta' })
+      log(data.toString(), { color: 'magenta' })
     }
   })
 
   // Print its errors
   child.stderr.on('data', data => {
     if (isChildAlive(child)) {
-      log(data.toString(), { color: 'bgRed' })
+      log(data.toString(), { color: 'red' })
     }
   })
 
@@ -114,7 +114,7 @@ watcher.on('change', path => {
         title: namespace.toUpperCase(),
         message: 'SUCCESS ✔'
       })
-      log('Handler: SUCCESS ✔')
+      log('handler: SUCCESS ✔')
     } else if (code === null) {
       // Handler was killed
     } else {
@@ -122,9 +122,9 @@ watcher.on('change', path => {
         title: namespace.toUpperCase(),
         message: 'ERROR ✘'
       })
-      log('Handler: FAILED ✘', { color: 'bgRed' })
+      log('handler: FAILED ✘', { color: 'red' })
     }
   })
 })
 
-log(`Initialized (Version: ${pkg.version})`, { color: 'bgCyan' })
+log(`${pkg.version}`, { color: 'yellow' })
