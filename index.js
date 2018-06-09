@@ -21,9 +21,9 @@
 
 var path = require('path')
 var chalk = require('chalk')
+var slash = require('slash')
 var chokidar = require('chokidar')
 var pkg = require('./package.json')
-var capitalize = require('capitalize')
 var notifier = require('node-notifier')
 var childProcess = require('child_process')
 
@@ -81,9 +81,11 @@ var child
 watcher.on('change', path => {
 
   // Log fs-event
-  log(`${path} (CHANGE)`, { color: 'cyan' })
+  log(`${slash(path)} (CHANGE)`, { color: 'cyan' })
 
-  // Kill php handler
+  // Kill php handler (async).
+  // Output handlers will continue to output
+  // until process is actually killed.
   if (child) {
     child.kill()
   }
@@ -128,4 +130,4 @@ watcher.on('change', path => {
 })
 
 log(`${pkg.version}`, { color: 'yellow' })
-log(`watching: ${conf.watchDir}`, { color: 'yellow' })
+log(`watching: ${slash(conf.watchDir)}`, { color: 'yellow' })
