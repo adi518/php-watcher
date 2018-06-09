@@ -32,7 +32,7 @@ var argv = require('minimist')(process.argv.slice(2))
 var defaults = require('./conf.default')
 
 // Helpers
-var namespace = `${pkg.name}`
+var namespace = pkg.name
 
 var getOwnConf = (() => {
   var conf = null
