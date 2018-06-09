@@ -1,11 +1,14 @@
 {
   "name": "php-watcher",
-  "version": "1.0.0",
+  "version": "1.0.-1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "prerelease": "npm version patch",
+    "postrelease": "git push --follow-tags",
+    "release": "npm publish"
   },
   "repository": {
     "type": "git",
